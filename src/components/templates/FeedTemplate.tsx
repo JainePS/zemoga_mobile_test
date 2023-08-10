@@ -9,7 +9,8 @@ type Props = {
 
 const FeedTemplate = ({posts}: Props) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{flexDirection: 'column', padding: 20, backgroundColor: 'white'}}>
       <FlatList
         data={posts}
         renderItem={({item}) => <Card post={item} />}
