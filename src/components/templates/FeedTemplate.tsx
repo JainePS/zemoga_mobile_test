@@ -8,6 +8,8 @@ type Props = {
 
 const FeedTemplate = (props: Props) => {
   const {posts} = props;
+  console.log(posts);
+
   return (
     <View>
       <Text>Posts</Text>

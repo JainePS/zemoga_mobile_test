@@ -6,6 +6,7 @@ import usePosts from '../../../services/hooks/usePosts';
 const FeedScreen = () => {
   const {getPosts} = usePosts();
   const posts = getPosts('/posts');
+  console.log(posts, 'posts');
 
   return <FeedTemplate posts={posts} />;
 };

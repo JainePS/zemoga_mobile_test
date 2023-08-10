@@ -4,7 +4,9 @@ import {Post} from '../../types/Post';
 const usePosts = () => {
   const getPosts = async (url: string) => {
     try {
-      return (await apiGet(url)) as Post[];
+      return (await apiGet(url)).then((data: any) => {
+        return data;
+      }) as Post[];
     } catch (error) {
       throw new Error('Something went wrong');
     }
