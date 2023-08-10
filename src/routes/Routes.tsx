@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import FeedScreen from './screens/Feed/FeedScreen';
+import Home from '../screens/Home';
 
 const {Navigator, Screen} = createNativeStackNavigator();
 const AppRoutes = () => {
   return (
     <Navigator>
-      <Screen name="Feed" component={FeedScreen} />
+      <Screen name="Home" component={Home} />
     </Navigator>
   );
 };
