@@ -1,7 +1,13 @@
 import * as React from 'react';
 import {Text, View} from 'react-native';
+import {Post} from '../../types/Post';
 
-const FeedTemplate = () => {
+type Props = {
+  posts: Promise<Post[]>;
+};
+
+const FeedTemplate = (props: Props) => {
+  const {posts} = props;
   return (
     <View>
       <Text>Posts</Text>
