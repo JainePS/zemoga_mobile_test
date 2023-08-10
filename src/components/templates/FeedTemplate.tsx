@@ -1,19 +1,21 @@
 import * as React from 'react';
-import {Text, View} from 'react-native';
+import {FlatList, SafeAreaView} from 'react-native';
 import {Post} from '../../types/Post';
+import Card from '../organisms/Card';
 
 type Props = {
-  posts: Promise<Post[]>;
+  posts: Post[];
 };
 
-const FeedTemplate = (props: Props) => {
-  const {posts} = props;
-  console.log(posts);
-
+const FeedTemplate = ({posts}: Props) => {
   return (
-    <View>
-      <Text>Posts</Text>
-    </View>
+    <SafeAreaView>
+      <FlatList
+        data={posts}
+        renderItem={({item}) => <Card post={item} />}
+        keyExtractor={post => `${post.id}`}
+      />
+    </SafeAreaView>
   );
 };
 

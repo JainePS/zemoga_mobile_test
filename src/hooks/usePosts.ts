@@ -1,5 +1,4 @@
 import {fetchPosts} from '../services/posts';
-import {Post} from '../types/Post';
 
 const usePosts = () => {
   const getPosts = async () => {
