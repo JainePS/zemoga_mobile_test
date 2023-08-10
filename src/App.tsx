@@ -1,8 +1,14 @@
-import React from 'react';
-import {Text} from 'react-native';
+import * as React from 'react';
 
-const App = (): JSX.Element => {
-  return <Text>Jaine, HELLO WORLD</Text>;
+import {NavigationContainer} from '@react-navigation/native';
+import AppRoutes from './routes/Routes';
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <AppRoutes />
+    </NavigationContainer>
+  );
 };
 
 export default App;
