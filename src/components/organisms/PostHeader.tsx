@@ -3,11 +3,12 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import {Post} from '../../types/Post';
 import Title from '../atoms/Title';
+import StarIcon from '../icons/StarIcon';
 
 type Props = {
-  post?: Post;
-  onDelete?: (id: number) => void;
-  onFavorite?: (id: number) => void;
+  post: Post;
+  onDelete?: (id: number) => Promise<void>;
+  onFavorite?: (id: number) => Promise<void>;
 };
 
 const styles = StyleSheet.create({
@@ -19,13 +20,23 @@ const styles = StyleSheet.create({
 });
 
 const PostHeader = ({post, onDelete, onFavorite}: Props) => {
+  const {id} = post;
+
+  const onFavoritePress = async () => {
+    onFavorite && (await onFavorite(id));
+  };
+
+  const onDeletePress = async () => {
+    onDelete && (await onDelete(id));
+  };
+
   return (
     <View style={styles.headerContainer}>
-      <TouchableOpacity onPress={onFavorite(post?.id)}>
-        <Text>Favorite</Text>
+      <TouchableOpacity onPress={onFavoritePress}>
+        <StarIcon />
       </TouchableOpacity>
       <Title title={post?.title} />
-      <TouchableOpacity onPress={() => onDelete}>
+      <TouchableOpacity onPress={onDeletePress}>
         <Text>Delete</Text>
       </TouchableOpacity>
     </View>
