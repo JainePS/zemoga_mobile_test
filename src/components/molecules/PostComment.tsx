@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Comment} from '../../types/Comment';
 
 type Props = {
@@ -15,7 +15,12 @@ const styles = StyleSheet.create({
 });
 
 const PostComment = ({comment}: Props) => {
-  return <Text style={styles.container}>{comment.body}</Text>;
+  return (
+    <View>
+      <Text>Comment owner: {comment.name}</Text>
+      <Text style={styles.container}>{comment.body}</Text>
+    </View>
+  );
 };
 
 export default PostComment;

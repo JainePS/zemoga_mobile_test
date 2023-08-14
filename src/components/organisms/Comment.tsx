@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {Comment} from '../../types/Comment';
+import objectCount from '../../utils/objectCount';
 import PostComment from '../molecules/PostComment';
 
 const styles = StyleSheet.create({
@@ -33,26 +35,30 @@ type Props = {
 
 const PostComments = ({comments}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  let commentCount = 0;
+  if (comments) {
+    commentCount = objectCount(comments);
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.commentContainer}>
+    <ScrollView style={styles.container}>
+      <SafeAreaView style={styles.commentContainer}>
         <View style={styles.text}>
           <TouchableOpacity onPress={() => setIsOpen(prev => !prev)}>
             <Text>Comments</Text>
           </TouchableOpacity>
-          <Text style={styles.number}>3</Text>
+          <Text style={styles.number}>{commentCount}</Text>
         </View>
         {isOpen && (
-          <ScrollView>
-            <FlatList
-              data={comments}
-              renderItem={({item}) => <PostComment comment={item} />}
-              keyExtractor={comment => `${comment.id}`}
-            />
-          </ScrollView>
+          <FlatList
+            data={comments}
+            renderItem={({item}) => <PostComment comment={item} />}
+            keyExtractor={comment => `${comment.id}`}
+          />
         )}
-      </View>
-    </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 
