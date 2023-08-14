@@ -5,11 +5,21 @@ import {Post} from '../../types/Post';
 
 type Props = {
   post: Post;
+  onPostTap?: (postID: number) => void;
 };
 
-const Card = ({post}: Props) => {
+const Card = ({post, onPostTap}: Props) => {
+  const onCardTap = (postID: number) => {
+    if (!onPostTap) {
+      return;
+    }
+    onPostTap(postID);
+  };
+
   return (
-    <TouchableOpacity style={styles.mainCardView}>
+    <TouchableOpacity
+      style={styles.mainCardView}
+      onPress={() => onCardTap(post.id)}>
       <View key={post.id} style={{flexDirection: 'column'}}>
         <Text numberOfLines={2} style={styles.title}>
           {post.title}
