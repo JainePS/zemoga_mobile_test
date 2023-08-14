@@ -1,12 +1,15 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import FeedScreen from './screens/Feed/FeedScreen';
+import Home from '../screens/Home';
+import PostDetails from '../screens/PostDetails';
+import {RootStackParams, Routes} from './RootStackParams';
 
-const {Navigator, Screen} = createNativeStackNavigator();
+const {Navigator, Screen} = createNativeStackNavigator<RootStackParams>();
 const AppRoutes = () => {
   return (
-    <Navigator>
-      <Screen name="Feed" component={FeedScreen} />
+    <Navigator initialRouteName={Routes.Home}>
+      <Screen name={Routes.Home} component={Home} />
+      <Screen name={Routes.PostDetails} component={PostDetails} />
     </Navigator>
   );
 };
