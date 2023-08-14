@@ -5,6 +5,6 @@ export enum Routes {
 
 export type RootStackParams = {
   navigate(arg0: string, props?: unknown): void;
-  [Routes.Home]: undefined;
+  [Routes.Home]: any;
   [Routes.PostDetails]: any;
 };

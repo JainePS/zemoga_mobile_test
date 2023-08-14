@@ -16,6 +16,7 @@ const FeedTemplate = ({posts, onPostSelect}: Props) => {
         data={posts}
         renderItem={({item}) => <Card post={item} onPostTap={onPostSelect} />}
         keyExtractor={post => `${post.id}`}
+        extraData={posts}
       />
     </SafeAreaView>
   );
