@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   FlatList,
   ScrollView,
@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Comment} from '../../types/Comment';
-import objectCount from '../../utils/objectCount';
 import PostComment from '../molecules/PostComment';
 
 const styles = StyleSheet.create({
@@ -36,10 +35,9 @@ type Props = {
 const PostComments = ({comments}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  let commentCount = 0;
-  if (comments) {
-    commentCount = objectCount(comments);
-  }
+  const commentsCount = useCallback(() => {
+    return (comments ?? []).length;
+  }, [comments]);
 
   return (
     <ScrollView style={styles.container}>
@@ -48,7 +46,7 @@ const PostComments = ({comments}: Props) => {
           <TouchableOpacity onPress={() => setIsOpen(prev => !prev)}>
             <Text>Comments</Text>
           </TouchableOpacity>
-          <Text style={styles.number}>{commentCount}</Text>
+          <Text style={styles.number}>{commentsCount()}</Text>
         </View>
         {isOpen && (
           <FlatList

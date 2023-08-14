@@ -21,8 +21,6 @@ const fetchUserById = async (id: number) => {
   }
 
   const users = await usersResponse.json();
-  
-  console.log('user1', users);
   return findUserById(users, id);
 };
 
