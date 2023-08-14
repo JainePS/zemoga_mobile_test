@@ -5,15 +5,16 @@ import Card from '../organisms/Card';
 
 type Props = {
   posts: Post[];
+  onPostSelect?: (postID: number) => void;
 };
 
-const FeedTemplate = ({posts}: Props) => {
+const FeedTemplate = ({posts, onPostSelect}: Props) => {
   return (
     <SafeAreaView
       style={{flexDirection: 'column', padding: 20, backgroundColor: 'white'}}>
       <FlatList
         data={posts}
-        renderItem={({item}) => <Card post={item} />}
+        renderItem={({item}) => <Card post={item} onPostTap={onPostSelect} />}
         keyExtractor={post => `${post.id}`}
       />
     </SafeAreaView>
