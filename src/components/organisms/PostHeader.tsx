@@ -1,21 +1,33 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import {Post} from '../../types/Post';
 import Title from '../atoms/Title';
-import StarIcon from '../icons/StarIcon';
 
 type Props = {
   post?: Post;
   onDelete?: (id: number) => void;
+  onFavorite?: (id: number) => void;
 };
 
-const PostHeader = ({post, onDelete}: Props) => {
+const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+const PostHeader = ({post, onDelete, onFavorite}: Props) => {
   return (
-    <View>
-      <StarIcon />
+    <View style={styles.headerContainer}>
+      <TouchableOpacity onPress={onFavorite(post?.id)}>
+        <Text>Favorite</Text>
+      </TouchableOpacity>
       <Title title={post?.title} />
-      <Text onPress={onDelete}>Delete</Text>
+      <TouchableOpacity onPress={() => onDelete}>
+        <Text>Delete</Text>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -24,7 +24,12 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: 'column',
   },
-  postText: {fontSize: 16, fontWeight: 'normal', padding: 10},
+  postText: {
+    fontSize: 16,
+    fontWeight: 'normal',
+    padding: 10,
+    textTransform: 'capitalize',
+  },
 });
 
 export default styles;

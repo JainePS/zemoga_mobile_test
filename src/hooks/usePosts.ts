@@ -7,6 +7,7 @@ import {
 } from '../services/posts';
 import {Comment} from '../types/Comment';
 import {Post} from '../types/Post';
+import {favoritePosts} from '../utils/favorites';
 //TODO: handle errors
 const usePosts = () => {
   const getPosts = async (): Promise<Post[]> => {
@@ -62,12 +63,22 @@ const usePosts = () => {
     }
   };
 
+  const onDeletePost = async (id: number) => {
+    await deletePost(id);
+  };
+
+  const onFavoritePost = (postId: number) => {
+    favoritePosts(postId);
+  };
+
   return {
     getPosts,
     getPostByUser,
     getPostById,
     getPostComments,
     deletePostByPostId,
+    onDeletePost,
+    onFavoritePost,
   };
 };
 
