@@ -1,22 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import FeedTemplate from '../../components/templates/FeedTemplate';
 import usePosts from '../../hooks/usePosts';
+import {RootStackParams, Routes} from '../../routes/RootStackParams';
+import {Post} from '../../types/Post';
 
 const Home = () => {
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const {getPosts} = usePosts();
+
+  const navigate = useNavigation<RootStackParams>();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const newPosts = await getPosts();
-      console.log('carnsal', newPosts);
-      setPosts(newPosts as any);
+      setPosts(newPosts.slice(0, 4));
     };
 
     fetchPosts();
   }, []);
 
-  return <FeedTemplate posts={posts} />;
+  const handleSelectPost = (postID: number) => {
+    navigate.navigate(Routes.PostDetails, postID);
+  };
+
+  return <FeedTemplate posts={posts} onPostSelect={handleSelectPost} />;
 };
 
 export default Home;
