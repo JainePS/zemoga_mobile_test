@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   postContainer: {
-    width: 330,
+    maxWidth: 400,
     height: 'auto',
     justifyContent: 'center',
     backgroundColor: '#FCEDDA',
