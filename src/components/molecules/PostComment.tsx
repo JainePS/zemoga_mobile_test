@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Comment} from '../../types/Comment';
 
 type Props = {
@@ -8,14 +8,25 @@ type Props = {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 5,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    color: '#FCEDDA',
+  },
+  text: {
+    fontSize: 15,
+    color: 'white',
+    textTransform: 'capitalize',
+    marginBottom: 10,
   },
 });
 
 const PostComment = ({comment}: Props) => {
-  return <Text style={styles.container}>{comment.body}</Text>;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>{comment.body}</Text>
+      <Text style={styles.text}>Name: {comment.name}</Text>
+    </View>
+  );
 };
 
 export default PostComment;

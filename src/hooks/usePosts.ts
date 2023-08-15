@@ -1,5 +1,7 @@
 import {
   deletePost,
+  favoritePost,
+  unfavoritePost,
   fetchPostById,
   fetchPostByUser,
   fetchPostComments,
@@ -7,26 +9,25 @@ import {
 } from '../services/posts';
 import {Comment} from '../types/Comment';
 import {Post} from '../types/Post';
+
 //TODO: handle errors
 const usePosts = () => {
   const getPosts = async (): Promise<Post[]> => {
     try {
       const posts = await fetchPosts();
-      const postsJson = await posts.json();
-      return postsJson as Post[];
+      return posts;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return [];
     }
   };
 
   const getPostById = async (postId: number) => {
     try {
-      const posts = await fetchPostById(postId);
-      const postsJson = await posts.json();
-      return postsJson as Post;
+      const post = await fetchPostById(postId);
+      return post;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -36,7 +37,7 @@ const usePosts = () => {
       const postsJson = await posts.json();
       return postsJson as Post[];
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -48,18 +49,27 @@ const usePosts = () => {
       const postCommentsJson = await postComments.json();
       return postCommentsJson;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
-  const deletePostByPostId = async (userId: number) => {
+  const deletePostByPostId = async (postId: number) => {
     try {
-      const response = await deletePost(userId);
-      const responseJson = await response.json();
-      return responseJson;
+      const response = await deletePost(postId);
+      return response;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
+  };
+
+  const onDeletePost = async (id: number) => {
+    const response = await deletePost(id);
+    console.log(response);
+    return true;
+  };
+
+  const onFavoritePost = async (postId: number) => {
+    await favoritePost(postId);
   };
 
   return {
@@ -68,6 +78,9 @@ const usePosts = () => {
     getPostById,
     getPostComments,
     deletePostByPostId,
+    onDeletePost,
+    onFavoritePost,
+    unfavoritePost,
   };
 };
 

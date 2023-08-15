@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  mainCardView: {
+  mainCardContainer: {
     width: 330,
     height: 90,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#FCEDDA',
     borderRadius: 15,
     shadowColor: '#71797E',
@@ -26,10 +26,10 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     fontSize: 15,
     fontWeight: '700',
+    padding: 15,
   },
   icon: {
-    width: 25,
-    height: 25,
+    justifyContent: 'flex-end',
   },
   flexPlaceholder: {
     flex: 0.2,
@@ -37,14 +37,9 @@ const styles = StyleSheet.create({
   backButton: {
     marginTop: 20,
   },
-  // bannerContainer: {
-  //   width: '100%',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   flex: 1,
-  // },
   contentContainer: {
-    flex: 1,
+    flexDirection: 'row-reverse',
+    justifyContent: 'center',
   },
 });
 
