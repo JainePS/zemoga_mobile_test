@@ -1,8 +1,16 @@
-import {getData, storeData} from '../libs/storage/client';
+import {
+  clearAll,
+  getData,
+  removeValue,
+  storeData,
+} from '../libs/storage/client';
 import {StorageKeys} from '../libs/storage/keys';
 import {Post} from '../types/Post';
 
 const URL = 'https://jsonplaceholder.typicode.com/posts';
+
+//**To clean up the cache data uncomment the line above */
+//clearAll();
 
 /** Helper function to filter "Deleted" posts */
 const filterDeletedPosts = async (posts: Post[] = []) => {
@@ -12,6 +20,23 @@ const filterDeletedPosts = async (posts: Post[] = []) => {
     const isDeleted = deletedPosts.includes(id);
     return !isDeleted;
   });
+};
+
+const isFavorite = async (post: Post) => {
+  const favoritedPosts: number[] = (await getData(StorageKeys.Favorites)) || [];
+  return favoritedPosts.includes(post.id);
+};
+
+/** Helper function to mark "Favorited" posts */
+const markFavoritedPosts = async (posts: Post[] = []) => {
+  return await Promise.all(
+    posts.map(async (post: Post) => {
+      return {
+        ...post,
+        isFavorite: await isFavorite(post),
+      };
+    }),
+  );
 };
 
 const fetchPosts = async (): Promise<Post[]> => {
@@ -28,7 +53,12 @@ const fetchPosts = async (): Promise<Post[]> => {
     /** Save posts in cache */
     await storeData(StorageKeys.PostsInCache, posts);
 
-    return filterDeletedPosts(posts);
+    const filteredPosts = await filterDeletedPosts(posts);
+    const favoritedPosts = await markFavoritedPosts(filteredPosts);
+
+    return favoritedPosts.sort(
+      (a, b) => Number(b.isFavorite) - Number(a.isFavorite),
+    );
   } catch (error) {
     console.error('Error on fetchPost: Returning cache data');
     /** Cover the case where the user doesn't have internet connection :) */
@@ -36,10 +66,47 @@ const fetchPosts = async (): Promise<Post[]> => {
   }
 };
 
-const fetchPostById = async (postId: number) => {
-  return await fetch(`${URL}/${postId}`, {
-    method: 'GET',
+const getPostFromTheCache = async (id: number) => {
+  const posts = (await getData(StorageKeys.PostsInCache)) || [];
+  const postSearch = posts.find((p: Post) => p.id === id);
+  return postSearch[0];
+};
+
+const updateCachePost = async (post: Post) => {
+  const posts = (await getData(StorageKeys.PostsInCache)) || [];
+  return posts.map((p: Post) => {
+    if (post.id === p.id) {
+      return post;
+    }
+
+    return p;
   });
+};
+
+const fetchPostById = async (postId: number) => {
+  try {
+    const post = await fetch(`${URL}/${postId}`, {
+      method: 'GET',
+    });
+    if (!post.ok) {
+      throw new Error('Error on fetchPost');
+    }
+    const postJson = await post.json();
+    console.log(await isFavorite(postJson), postId);
+
+    const parsedPost = {
+      ...postJson,
+      isFavorite: await isFavorite(postJson),
+    };
+
+    await updateCachePost(parsedPost);
+
+    return parsedPost;
+  } catch (error) {
+    console.error('Error on fetchPostById: Returning cache data');
+    /** Cover the case where the user doesn't have internet connection :) */
+    return getPostFromTheCache(postId);
+  }
 };
 
 const fetchPostByUser = async (userId: number) => {
@@ -67,8 +134,44 @@ const deletePost = async (postId: number) => {
 
   /** Delete post on cache */
   const postsInCache = (await getData(StorageKeys.PostsInCache)) || [];
-  const cacheWitoutPost = postsInCache.filter((p: Post) => p.id !== postId);
-  await storeData(StorageKeys.PostsInCache, cacheWitoutPost);
+  const cacheWithoutPost = postsInCache.filter((p: Post) => p.id !== postId);
+  await storeData(StorageKeys.PostsInCache, cacheWithoutPost);
+
+  return true;
+};
+
+const unfavoritePost = async (postId: number) => {
+  await removeValue(StorageKeys.Favorites[postId]);
+  // /** Remove favorite key */
+  const favoritedPosts = (await getData(StorageKeys.Favorites)) || [];
+  const updatedFavoritedPosts = favoritedPosts.filter(
+    (p: number) => p !== postId,
+  );
+
+  await storeData(StorageKeys.Favorites, updatedFavoritedPosts);
+  const posts = (await getData(StorageKeys.PostsInCache)) || [];
+  const updatedPosts = posts.map((p: Post) => {
+    return {
+      ...p,
+      isFavorite: p.id === postId ? false : p.isFavorite,
+    };
+  });
+
+  await storeData(StorageKeys.PostsInCache, updatedPosts);
+  return true;
+};
+
+/** API is just a mock, using local storage to simulate to favorite */
+const favoritePost = async (postId: number) => {
+  /** Add favorited post id in the favorited array */
+  const favoritedPosts = (await getData(StorageKeys.Favorites)) || [];
+  favoritedPosts.push(postId);
+
+  await storeData(StorageKeys.Favorites, favoritedPosts);
+
+  /** To favorite post on cache */
+  const postsInCache = (await getData(StorageKeys.PostsInCache)) || [];
+  await markFavoritedPosts(postsInCache);
 
   return true;
 };
@@ -78,4 +181,6 @@ export {
   fetchPostById,
   fetchPostComments,
   deletePost,
+  favoritePost,
+  unfavoritePost,
 };

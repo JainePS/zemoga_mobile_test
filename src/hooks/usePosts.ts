@@ -1,5 +1,7 @@
 import {
   deletePost,
+  favoritePost,
+  unfavoritePost,
   fetchPostById,
   fetchPostByUser,
   fetchPostComments,
@@ -7,7 +9,7 @@ import {
 } from '../services/posts';
 import {Comment} from '../types/Comment';
 import {Post} from '../types/Post';
-import {favoritePosts} from '../utils/favorites';
+
 //TODO: handle errors
 const usePosts = () => {
   const getPosts = async (): Promise<Post[]> => {
@@ -22,9 +24,8 @@ const usePosts = () => {
 
   const getPostById = async (postId: number) => {
     try {
-      const posts = await fetchPostById(postId);
-      const postsJson = await posts.json();
-      return postsJson as Post;
+      const post = await fetchPostById(postId);
+      return post;
     } catch (error) {
       console.error(error);
     }
@@ -63,11 +64,12 @@ const usePosts = () => {
 
   const onDeletePost = async (id: number) => {
     const response = await deletePost(id);
-    console.log('borranooo', response);
+    console.log(response);
+    return true;
   };
 
-  const onFavoritePost = (postId: number) => {
-    favoritePosts(postId);
+  const onFavoritePost = async (postId: number) => {
+    await favoritePost(postId);
   };
 
   return {
@@ -78,6 +80,7 @@ const usePosts = () => {
     deletePostByPostId,
     onDeletePost,
     onFavoritePost,
+    unfavoritePost,
   };
 };
 
