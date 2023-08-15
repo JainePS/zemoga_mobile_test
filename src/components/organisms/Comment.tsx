@@ -29,30 +29,21 @@ const styles = StyleSheet.create({
 
 type Props = {
   comments?: Comment[];
+  backgroundColor?: string;
 };
 
-const PostComments = ({comments}: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const commentsCount = useCallback(() => {
-    return (comments ?? []).length;
-  }, [comments]);
-
+const PostComments = ({comments = [], backgroundColor = '#EE4E34'}: Props) => {
   return (
     <View style={styles.commentContainer}>
-      <IconAndNumber count={commentsCount} setIsOpen={setIsOpen} />
       <View
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
-          backgroundColor: isOpen ? '#EE4E34' : 'transparent',
+          backgroundColor,
           borderRadius: 20,
         }}>
-        {isOpen && (
-          <FlatList
-            data={comments}
-            renderItem={({item}) => <PostComment comment={item} />}
-            keyExtractor={comment => `${comment.id}`}
-          />
-        )}
+        {comments.map(c => (
+          <PostComment key={c.id} comment={c} />
+        ))}
       </View>
     </View>
   );

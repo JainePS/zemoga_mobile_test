@@ -1,5 +1,5 @@
-import React from 'react';
-import {Alert, ScrollView, Text, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {ScrollView, Text, View} from 'react-native';
 import {Post} from '../../types/Post';
 import {User} from '../../types/User';
 import {Comment} from '../../types/Comment';
@@ -9,9 +9,10 @@ import PostHeader from '../organisms/PostHeader';
 import UserInfo from '../molecules/UserInfo';
 import PostComments from '../organisms/Comment';
 import Loading from '../organisms/Loading';
+import IconAndNumber from '../molecules/IconAndNumber';
 
 type Props = {
-  post?: Post;
+  post: Post;
   user?: User;
   comments?: Comment[];
   onDelete?: (id: number) => Promise<void>;
@@ -29,6 +30,11 @@ const PostDetailsTemplate = ({
   onFavoritePost,
   onUnfavorite,
 }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const commentsCount = useCallback(() => {
+    return (comments ?? []).length;
+  }, [comments]);
+
   if (!post && !isLoading) {
     return <Text>Post not found</Text>;
   }
@@ -48,7 +54,8 @@ const PostDetailsTemplate = ({
         />
         <Text style={styles.postText}>{post?.body}</Text>
         <UserInfo user={user} />
-        <PostComments comments={comments} />
+        <IconAndNumber count={commentsCount} setIsOpen={setIsOpen} />
+        {isOpen && <PostComments comments={comments} />}
       </View>
     </ScrollView>
   );
