@@ -1,5 +1,8 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
+[Screencast from 2023-08-15 18-11-10.webm](https://github.com/JainePS/zemoga_mobile_test/assets/92764262/e1e83f75-5793-4c9e-9629-6a0df70b9fa4)
+
+
 ### Requirements
 
 - [Node](https://nodejs.org/en/)
