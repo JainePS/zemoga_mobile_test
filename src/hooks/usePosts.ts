@@ -63,8 +63,7 @@ const usePosts = () => {
   };
 
   const onDeletePost = async (id: number) => {
-    const response = await deletePost(id);
-    console.log(response);
+    await deletePost(id);
     return true;
   };
 

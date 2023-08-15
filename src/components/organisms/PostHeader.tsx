@@ -30,7 +30,6 @@ const PostHeader = ({post, onDelete, onFavorite, onUnfavorite}: Props) => {
 
   const onFavoritePress = async () => {
     if (isFavorite) {
-      console.log('ACA');
       onUnfavorite && (await onUnfavorite(id));
       return;
     }

@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import { Comment } from '../../types/Comment';
+import {Comment} from '../../types/Comment';
 
 import IconAndNumber from '../molecules/IconAndNumber';
 import PostComment from '../molecules/PostComment';
