@@ -20,7 +20,7 @@ const Home = ({route}: Props) => {
   useEffect(() => {
     const fetchPosts = async () => {
       const newPosts = await getPosts();
-      setPosts(newPosts.slice(0, 4));
+      setPosts(newPosts);
     };
 
     fetchPosts();

@@ -44,4 +44,15 @@ const removeValue = async (key: string) => {
   }
 };
 
-export {getData, storeData, mergeData, getAllKeys, removeValue};
+const clearAll = async () => {
+  try {
+    await AsyncStorage.clear();
+    return true;
+  } catch (e) {
+    console.error(e);
+  }
+
+  console.log('Done.');
+};
+
+export {getData, storeData, mergeData, getAllKeys, removeValue, clearAll};
