@@ -9,6 +9,7 @@ import useUsers from './useUsers';
 
 const usePostDetails = (postId: number) => {
   const navigate = useNavigation<RootStackParams>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [post, setPost] = useState<Post>();
   const [user, setUser] = useState<User>();
@@ -18,12 +19,14 @@ const usePostDetails = (postId: number) => {
     getPostById,
     getPostComments,
     onDeletePost: onDeletePostService,
-    onFavoritePost,
+    onFavoritePost: onFavoritePostService,
+    unfavoritePost: unfavoritePostService,
   } = usePosts();
   const {getUserById} = useUsers();
 
   useEffect(() => {
     const fetchPostDetailsData = async () => {
+      setLoading(true);
       const [dbPost, postComments] = await Promise.allSettled([
         getPostById(postId),
         getPostComments(postId),
@@ -42,10 +45,23 @@ const usePostDetails = (postId: number) => {
       if (postComments.status === 'fulfilled') {
         setComments(postComments.value);
       }
+
+      setLoading(false);
     };
 
     fetchPostDetailsData();
   }, []);
+
+  const onFavorite = async (id: number) => {
+    await onFavoritePostService(id);
+
+    navigate.navigate(Routes.Home, {shouldRefreshResults: true});
+  };
+
+  const onUnfavorite = async (id: number) => {
+    await unfavoritePostService(id);
+    navigate.navigate(Routes.Home, {shouldRefreshResults: true});
+  };
 
   const onDeletePost = async (id: number) => {
     await onDeletePostService(id);
@@ -59,7 +75,9 @@ const usePostDetails = (postId: number) => {
     user,
     comments,
     onDeletePost,
-    onFavoritePost,
+    onFavorite,
+    onUnfavorite,
+    loading,
   };
 };
 
