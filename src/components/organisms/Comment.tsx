@@ -1,30 +1,29 @@
 import React, {useCallback, useState} from 'react';
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Comment} from '../../types/Comment';
+import {FlatList, StyleSheet, View} from 'react-native';
+import { Comment } from '../../types/Comment';
+
+import IconAndNumber from '../molecules/IconAndNumber';
 import PostComment from '../molecules/PostComment';
 
 const styles = StyleSheet.create({
   container: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 26,
   },
   text: {
     flexDirection: 'row',
+    marginBottom: 15,
   },
   number: {
-    marginLeft: 2,
+    marginLeft: 10,
+    fontSize: 23,
+    color: '#EE4E34',
   },
   commentContainer: {
+    height: 'auto',
     flexDirection: 'column',
+    marginBottom: 15,
+    marginHorizontal: 15,
+    borderRadius: 20,
   },
 });
 
@@ -34,20 +33,19 @@ type Props = {
 
 const PostComments = ({comments}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const commentsCount = useCallback(() => {
     return (comments ?? []).length;
   }, [comments]);
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView style={styles.commentContainer}>
-        <View style={styles.text}>
-          <TouchableOpacity onPress={() => setIsOpen(prev => !prev)}>
-            <Text>Comments</Text>
-          </TouchableOpacity>
-          <Text style={styles.number}>{commentsCount()}</Text>
-        </View>
+    <View style={styles.commentContainer}>
+      <IconAndNumber count={commentsCount} setIsOpen={setIsOpen} />
+      <View
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          backgroundColor: isOpen ? '#EE4E34' : 'transparent',
+          borderRadius: 20,
+        }}>
         {isOpen && (
           <FlatList
             data={comments}
@@ -55,8 +53,8 @@ const PostComments = ({comments}: Props) => {
             keyExtractor={comment => `${comment.id}`}
           />
         )}
-      </SafeAreaView>
-    </ScrollView>
+      </View>
+    </View>
   );
 };
 

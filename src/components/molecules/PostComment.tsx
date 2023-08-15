@@ -8,17 +8,23 @@ type Props = {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 5,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    color: '#FCEDDA',
+  },
+  text: {
+    fontSize: 15,
+    color: 'white',
+    textTransform: 'capitalize',
+    marginBottom: 10,
   },
 });
 
 const PostComment = ({comment}: Props) => {
   return (
-    <View>
-      <Text>Comment owner: {comment.name}</Text>
-      <Text style={styles.container}>{comment.body}</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>{comment.body}</Text>
+      <Text style={styles.text}>Name: {comment.name}</Text>
     </View>
   );
 };
