@@ -12,7 +12,7 @@ import Loading from '../organisms/Loading';
 import IconAndNumber from '../molecules/IconAndNumber';
 
 type Props = {
-  post?: Post;
+  post: Post;
   user?: User;
   comments?: Comment[];
   onDelete?: (id: number) => Promise<void>;

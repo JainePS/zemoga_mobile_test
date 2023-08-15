@@ -11,7 +11,7 @@ type Props = {
   post: Post;
   onDelete?: (id: number) => Promise<void>;
   onFavorite?: (id: number) => Promise<void>;
-  onUnfavorite: (id: number) => Promise<void>;
+  onUnfavorite?: (id: number) => Promise<void>;
 };
 
 const styles = StyleSheet.create({
