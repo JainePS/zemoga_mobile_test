@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import styles from '../../layouts/cardStyles';
+import styles from '../../styles/cardStyles';
 import {Post} from '../../types/Post';
 import StarIcon from '../icons/StarIcon';
 

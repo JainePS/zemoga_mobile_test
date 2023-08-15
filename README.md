@@ -66,13 +66,13 @@ You've successfully run and modified your React Native App. :partying_face:
 ```
 Root
 ├── __tests__     (react native generated)
-├──.bundle
-├──.vscode
 ├──android
 ├──ios
 ├── src/                (project source files)
-│  |   ├── apis        (contains the all CRUD apis)
+│  |   ├── hooks       
 │  |   ├── assets
+│  |   ├── styles
+│  |   ├── types
 │  ├── components/
 |      ├── atoms
 |      ├── molecules
@@ -82,8 +82,7 @@ Root
 │  ├── routes          (contains all the pages / routes)
 │  |   ├── index.tsx   (decides the routes)    
 │  └── index.ts
-├── .env               (with the constants)
-└── package.json
+
 ```
 ## 📋 Coding Standards
 
