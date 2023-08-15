@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import styles from '../../layouts/cardStyles';
 import {Post} from '../../types/Post';
+import StarIcon from '../icons/StarIcon';
 
 type Props = {
   post: Post;
@@ -18,13 +19,13 @@ const Card = ({post, onPostTap}: Props) => {
 
   return (
     <TouchableOpacity
-      style={styles.mainCardView}
+      style={styles.mainCardContainer}
       onPress={() => onCardTap(post.id)}>
-      <View key={post.id} style={{flexDirection: 'column'}}>
-        <Text numberOfLines={2} style={styles.title}>
+      <View key={post.id} style={styles.contentContainer}>
+        <Text numberOfLines={1} style={styles.title}>
           {post.title}
         </Text>
-        {/* <StarIcon /> */}
+        <View style={styles.icon}>{post.isFavorite && <StarIcon />}</View>
       </View>
     </TouchableOpacity>
   );
