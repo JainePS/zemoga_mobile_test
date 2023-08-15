@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {FlatList, SafeAreaView, Text} from 'react-native';
-import styles from '../../layouts/feedStyles';
+import styles from '../../styles/feedStyles';
 import {Post} from '../../types/Post';
 import Card from '../organisms/Card';
 

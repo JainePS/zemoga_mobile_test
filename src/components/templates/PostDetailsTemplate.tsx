@@ -4,7 +4,7 @@ import {Post} from '../../types/Post';
 import {User} from '../../types/User';
 import {Comment} from '../../types/Comment';
 
-import styles from '../../layouts/postDetailsStyles';
+import styles from '../../styles/postDetailsStyles';
 import PostHeader from '../organisms/PostHeader';
 import UserInfo from '../molecules/UserInfo';
 import PostComments from '../organisms/Comment';
