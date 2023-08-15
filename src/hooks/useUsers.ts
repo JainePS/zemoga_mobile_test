@@ -8,7 +8,7 @@ const useUsers = () => {
       const usersJson = await users.json();
       return usersJson as User[];
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return [];
     }
   };
@@ -18,7 +18,7 @@ const useUsers = () => {
       const user = await fetchUserById(id);
       return user;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
