@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import styles from '../../layouts/cardStyles';
 import {Post} from '../../types/Post';
@@ -31,4 +31,4 @@ const Card = ({post, onPostTap}: Props) => {
   );
 };
 
-export default Card;
+export default memo(Card);

@@ -92,8 +92,6 @@ const fetchPostById = async (postId: number) => {
       throw new Error('Error on fetchPost');
     }
     const postJson = await post.json();
-    console.log(await isFavorite(postJson), postId);
-
     const parsedPost = {
       ...postJson,
       isFavorite: await isFavorite(postJson),
